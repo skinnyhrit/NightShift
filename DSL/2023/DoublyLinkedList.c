@@ -16,6 +16,9 @@ void insertAtBegining(int);
 void insertAtEnd(int);
 void insertAtPosition(int,int);
 void Display();
+int removeData(int);
+int removeAt(int);
+int get(int);
 
 int main()
 {
@@ -28,7 +31,8 @@ int main()
 		printf("\n2.Insert at end");
 		printf("\n3.Dipslay");
 		printf("\n4.Insert at Position");
-		printf("\n5.Exit");
+		printf("\n5.Delete data");
+		printf("\n6.Exit");
 		scanf("%d",&ch);
 		
 		switch(ch)
@@ -50,7 +54,12 @@ int main()
 				scanf("%d",&position);
 				insertAtPosition(position,data);
 				break;
-			case 5:	exit(0);
+			case 5: printf("Enter data to remove\n");
+				scanf("%d",&data);
+				int removedData = removeData(data);
+				printf("Data removed = %d\n",removedData);
+				break;
+			case 6:	exit(0);
 			
 			default: printf("Wrong choice\n");
 		}
@@ -117,6 +126,10 @@ void insertAtPosition(int pos, int data)
 	{
 		insertAtEnd(data);
 	}
+	else if(pos > length)
+	{
+		printf("Index out of range\n");
+	}
 	else
 	{
 		int idx = 1;
@@ -133,6 +146,63 @@ void insertAtPosition(int pos, int data)
 		trav->next->prev = temp;
 		length++;
 	}
+
+}
+
+int removeData(int data)
+{
+	struct Node* trav = head;
+	while(trav!=NULL)
+	{
+		if(trav->data == data)
+		{
+			if(trav->prev == NULL && trav->next == NULL)
+			{
+				head = NULL;
+				tail = NULL;
+				free(trav);
+			}
+			else if(trav->next == NULL)
+			{
+				trav->prev->next = NULL;
+				tail = trav->prev;
+				trav->prev = NULL;
+				free(trav);
+			}
+			else if(trav->prev == NULL)
+			{
+				head = trav->next;
+				trav->next->prev = NULL;
+				trav->next = NULL;
+				free(trav);	
+			}
+			else
+			{
+				trav->prev->next = trav->next;
+				trav->next->prev = trav->prev;
+				trav->next = NULL;
+				trav->next = NULL;
+				free(trav);
+			}
+			length--;
+			return data;
+		}
+		trav = trav->next;
+	}
+	
+		
+	return 0;
+}
+
+int removeAt(int pos)
+{
+	return 0;
+
+}
+
+int get(int pos)
+{
+	return 0;
 
 }
 
