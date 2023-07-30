@@ -32,7 +32,8 @@ int main()
 		printf("\n3.Dipslay");
 		printf("\n4.Insert at Position");
 		printf("\n5.Delete data");
-		printf("\n6.Exit");
+		printf("\n6.Remove at Position");
+		printf("\n7.Exit");
 		scanf("%d",&ch);
 		
 		switch(ch)
@@ -59,7 +60,13 @@ int main()
 				int removedData = removeData(data);
 				printf("Data removed = %d\n",removedData);
 				break;
-			case 6:	exit(0);
+			case 6: printf("Remove at position: Enter position\n");
+				scanf("%d",&data);
+				int removedDataAt = removeAt(data);
+				printf("Data removed = %d\n",removedDataAt);
+				break;
+
+			case 7:	exit(0);
 			
 			default: printf("Wrong choice\n");
 		}
@@ -196,6 +203,64 @@ int removeData(int data)
 
 int removeAt(int pos)
 {
+	if(length == 0 || pos>length)
+	{
+
+		printf("List is empty or pos is out of range\n");
+	}
+	else if(length == 1)
+	{
+		int data = head->data;
+		struct Node* temp = head;
+		head = NULL;
+		tail = NULL;
+		free(temp);
+		length--;
+		return data;
+
+	}
+	else if(pos == 1)
+	{
+		int data = head->data;
+		struct Node* temp = head;
+		head->next->prev = NULL;
+		head = head->next;
+		temp->next = NULL;
+		free(temp);		
+		length--;	
+		return data;
+	}
+	else if(pos == length)
+	{
+		int data = tail->data;
+		struct Node* temp = tail;
+		tail = tail->prev;
+		temp->prev = NULL;
+		tail->next = NULL;
+		free(temp);
+		length--;
+		return data;
+	}
+	else
+	{
+		struct Node* trav = head;
+		for(int i=0;i<pos-1;i++)
+		{
+
+			trav = trav->next;
+		}
+
+		struct Node* temp = trav;
+		int data = temp->data;
+		trav->prev->next = trav->next;
+		trav->next->prev = trav->prev;
+		trav->next = NULL;
+		trav->prev = NULL;
+		free(temp);
+		length--;
+		return data;
+	}
+
 	return 0;
 
 }
