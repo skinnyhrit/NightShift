@@ -33,7 +33,8 @@ int main()
 		printf("\n4.Insert at Position");
 		printf("\n5.Delete data");
 		printf("\n6.Remove at Position");
-		printf("\n7.Exit");
+		printf("\n7.Get from Position");
+		printf("\n8.Exit");
 		scanf("%d",&ch);
 		
 		switch(ch)
@@ -65,8 +66,12 @@ int main()
 				int removedDataAt = removeAt(data);
 				printf("Data removed = %d\n",removedDataAt);
 				break;
-
-			case 7:	exit(0);
+			case 7: printf("Get from position: Enter position\n");
+				scanf("%d",&data);
+				int gotData = get(data);
+				printf("Data got = %d\n",gotData);
+				break;
+			case 8:	exit(0);
 			
 			default: printf("Wrong choice\n");
 		}
@@ -267,6 +272,20 @@ int removeAt(int pos)
 
 int get(int pos)
 {
+	if(length == 0 || pos > length)
+	{
+		return 0;
+	}
+	else
+	{
+		struct Node* trav = head;
+		for(int i=0;i<pos-1;i++)
+		{
+			trav = trav->next;
+		}
+		return trav->data;
+	}
+	
 	return 0;
 
 }
