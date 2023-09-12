@@ -9,25 +9,27 @@ struct Node
 	struct Node* right;
 };
 
-struct Node* listToBinaryTree(struct Node*,int idx, int[], int);
+struct Node* listToBinaryTree(struct Node*,int idx, int[]);
 void printInOrder(struct Node*);
+void printPreOrder(struct Node*);
+void printPostOrder(struct Node*);
 struct Node* root;
 
 int main()
 {
 	int arr[] = {1, 2, 3, 4, 5};	
-	root = (struct Node*) malloc(sizeof(struct Node));
-	root->data = arr[0];
-	root->left = NULL;
-	root->right = NULL;
-	//root->left = listToBinaryTree(root,1, arr,2);
-	root->right = listToBinaryTree(root,2, arr,2);
-	//printInOrder(root);	
+	root = listToBinaryTree(root, 0, arr);
+	printf("In order : ");
+	printInOrder(root);
+	printf("\nPre order : ");
+	printPreOrder(root);
+	printf("\nPost order : ");
+	printPostOrder(root);	
 	return 0;
 
 }
 
-struct Node* listToBinaryTree(struct Node* parent,int idx, int arr[], int height)
+struct Node* listToBinaryTree(struct Node* parent,int idx, int arr[])
 {
 	
 	if(idx >= 5)
@@ -35,11 +37,14 @@ struct Node* listToBinaryTree(struct Node* parent,int idx, int arr[], int height
 		return NULL;                                          
 	}	
 
-	printf("%d\t", idx);
 	struct Node* temp = (struct Node*) malloc(sizeof(struct Node));
+	
 	temp->data = arr[idx];
-	temp->left = listToBinaryTree(temp, idx + height , arr, height+1);
-	temp->right = listToBinaryTree(temp, idx + 1 + height, arr, height+1);	
+	temp->left = listToBinaryTree(temp, (idx+(idx+1)), arr);
+	temp->right = listToBinaryTree(temp, (idx+(idx+1)+1), arr);
+
+	return temp;
+		
 }
 
 
@@ -55,3 +60,22 @@ void printInOrder(struct Node* temp)
 	
 }
 
+void printPreOrder(struct Node* temp)
+{
+	if(temp != NULL)
+	{
+		printf("%d ", temp->data);
+		printPreOrder(temp->left);
+		printPreOrder(temp->right);	
+	}
+}
+
+void printPostOrder(struct Node* temp)
+{
+	if(temp != NULL)
+	{
+		printPostOrder(temp->left);
+		printPostOrder(temp->right);
+		printf("%d ",temp->data);
+	}
+}
