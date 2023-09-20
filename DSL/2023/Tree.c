@@ -29,6 +29,7 @@ void printInOrder(struct Node*);
 void printPreOrder(struct Node*);
 void printPostOrder(struct Node*);
 void printBreadthFirst(struct Node*);
+void compareTree(struct Node*, struct Node*);
 struct Node* root;
 
 int main()
