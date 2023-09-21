@@ -1,5 +1,6 @@
 #include<stdlib.h>
 #include<stdio.h>
+#include<stdbool.h>
 
 
 struct Node
@@ -29,15 +30,20 @@ void printInOrder(struct Node*);
 void printPreOrder(struct Node*);
 void printPostOrder(struct Node*);
 void printBreadthFirst(struct Node*);
-void compareTree(struct Node*, struct Node*);
+bool compareTree(struct Node*, struct Node*);
 struct Node* root;
-
+struct Node* root2;
+struct Node* root3;
 int main()
 {
 	
 
-	int arr[] = {1, 2, 3, 4, 5};	
+	int arr[] = {1, 2, 3, 4, 5};
+	int arr2[] = {2, 1, 3, 4, 5};
+	int arr3[] = {1, 2, 3, 4};	
 	root = listToBinaryTree(root, 0, arr);
+	root2 = listToBinaryTree(root2, 0, arr2);
+	root3 = listToBinaryTree(root3, 0, arr3);
 	printf("In order : ");
 	printInOrder(root);
 	printf("\nPre order : ");
@@ -45,7 +51,11 @@ int main()
 	printf("\nPost order : ");
 	printPostOrder(root);
 	printf("\nBreadth first : ");
-	printBreadthFirst(root);	
+	printBreadthFirst(root);
+	bool ans1 = compareTree(root, root2);
+	bool ans2 = compareTree(root, root3);
+	printf("\nans1: %d", ans1);
+	printf("\nans2: %d", ans2);	
 	return 0;
 
 }
@@ -115,6 +125,28 @@ void printBreadthFirst(struct Node* temp)
 		trav = dequeue();	
 	}
 			
+}
+
+bool compareTree(struct Node* a, struct Node* b)
+{
+
+	if(a == NULL && b == NULL)
+	{
+		return true;
+	}	
+	
+	if(a == NULL || b == NULL)
+	{
+		return false;	
+	}
+
+	if(a->data != b->data)
+	{
+		return false;
+	}
+
+	return compareTree(a->left, b->left) && compareTree(a->right, b->right); 
+	
 }
 
 void enqueue(struct Node* data)
