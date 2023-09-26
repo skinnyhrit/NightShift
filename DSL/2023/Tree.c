@@ -31,6 +31,10 @@ void printPreOrder(struct Node*);
 void printPostOrder(struct Node*);
 void printBreadthFirst(struct Node*);
 bool compareTree(struct Node*, struct Node*);
+bool BinarySearch(struct Node*, int val);
+
+
+
 struct Node* root;
 struct Node* root2;
 struct Node* root3;
@@ -38,7 +42,7 @@ int main()
 {
 	
 
-	int arr[] = {1, 2, 3, 4, 5};
+	int arr[] = {6,4, 8, 3, 5, 7,9};
 	int arr2[] = {2, 1, 3, 4, 5};
 	int arr3[] = {1, 2, 3, 4};	
 	root = listToBinaryTree(root, 0, arr);
@@ -54,8 +58,10 @@ int main()
 	printBreadthFirst(root);
 	bool ans1 = compareTree(root, root2);
 	bool ans2 = compareTree(root, root3);
+	bool ans3 = BinarySearch(root, 3);
 	printf("\nans1: %d", ans1);
-	printf("\nans2: %d", ans2);	
+	printf("\nans2: %d", ans2);
+	printf("\nans3: %d", ans3);
 	return 0;
 
 }
@@ -63,7 +69,7 @@ int main()
 struct Node* listToBinaryTree(struct Node* parent,int idx, int arr[])
 {
 	
-	if(idx >= 5)
+	if(idx >= 7)
 	{
 		return NULL;                                          
 	}	
@@ -147,6 +153,27 @@ bool compareTree(struct Node* a, struct Node* b)
 
 	return compareTree(a->left, b->left) && compareTree(a->right, b->right); 
 	
+}
+
+bool BinarySearch(struct Node* temp, int val)
+{
+
+	if(temp == NULL)
+	{
+		return false;
+	}
+	
+	if(temp->data == val)
+	{
+		return true;
+	}
+
+	if(temp->data > val)
+	{
+		return BinarySearch(temp->left, val);	
+	}
+
+	return BinarySearch(temp->right, val);
 }
 
 void enqueue(struct Node* data)
